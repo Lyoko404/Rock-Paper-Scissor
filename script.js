@@ -1,3 +1,6 @@
+let humanScore = 0;
+let computerScore = 0;
+
 function getComputerChoice() {
     computerChoices = Math.floor(Math.random() * 3);
 
@@ -14,19 +17,9 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-    let humanChoice = +prompt('Enter you choices [1, 2, 3]: ', '');
+    let humanChoice = prompt('Enter you choices [rock, paper, scissor]: ', '');
 
-    switch(humanChoice) {
-        case 1:
-            return 'rock';
-
-        case 2:
-            return 'paper';
-        
-        case 3:
-            return 'scissor';
-    }
+    return humanChoice.toLowerCase();
 }
 
-
-
+console.log(getHumanChoice());
