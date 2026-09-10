@@ -1,10 +1,10 @@
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+const humanSelection = getHumanChoice;
+const computerSelection = getComputerChoice;
 
-playRound(humanSelection, computerSelection);
+playGame();
 
 function getComputerChoice() {
-    computerChoices = Math.floor(Math.random() * 3);
+    let computerChoices = Math.floor(Math.random() * 3);
 
     switch(computerChoices) {
         case 0:
@@ -31,49 +31,65 @@ function playGame() {
     let humanScore = 0;
     let computerScore = 0;
 
-    function playRound(humanChoice, computerChoice) {
-    if(humanChoice !== computerChoice) {
+    function playRound(humanSelection, computerSelection) {
 
-        if(humanChoice === 'rock') {
-            if(computerChoice === 'paper') {
-                console.log(`You lose! ${humanChoice} lose to ${computerChoice}`);
-                computerScore += 1;
+        if(humanSelection !== computerSelection) {
+
+            if(humanSelection === 'rock') {
+                if(computerSelection === 'paper') {
+                    console.log(`You lose! ${humanSelection} lose to ${computerSelection}`);
+                    computerScore += 1;
+                }
+
+                if(computerSelection === 'scissor') {
+                    console.log(`You win! ${humanSelection} beats ${computerSelection}`);
+                    humanScore += 1;
+                }
             }
 
-            if(computerChoice === 'scissor') {
-                console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-                humanScore += 1;
+            if(humanSelection === 'paper') {
+                if(computerSelection === 'scissor') {
+                    console.log(`You lose! ${humanSelection} lose to ${computerSelection}`);
+                    computerScore += 1;
+                }
+
+                if(computerSelection === 'rock') {
+                    console.log(`You win! ${humanSelection} beats ${computerSelection}`);
+                    humanScore += 1;
+                }
+            }
+
+            if (humanSelection === 'scissor') {
+                if(computerSelection === 'rock') {
+                    console.log(`You lose! ${humanSelection} lose to ${computerSelection}`);
+                    computerSelection += 1;
+                }
+
+                if(computerSelection === 'paper') {
+                    console.log(`You win! ${humanSelection} beats ${computerSelection}`);
+                    humanScore += 1;
+                }
             }
         }
 
-        if(humanChoice === 'paper') {
-            if(computerChoice === 'scissor') {
-                console.log(`You lose! ${humanChoice} lose to ${computerChoice}`);
-                computerScore += 1;
-            }
-
-            if(computerChoice === 'rock') {
-                console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-                humanScore += 1;
-            }
-        }
-
-        if (humanChoice === 'scissor') {
-            if(computerChoice === 'rock') {
-                console.log(`You lose! ${humanChoice} lose to ${computerChoice}`);
-                computerChoice += 1;
-            }
-
-            if(computerChoice === 'paper') {
-                console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-                humanScore += 1;
-            }
+        if (humanSelection === computerSelection) {
+            console.log(`Draw! ${humanSelection} parry ${computerSelection}`);
         }
     }
 
-    if (humanChoice === computerChoice) {
-        console.log(`Draw! ${humanChoice} parry ${computerChoice}`);
+    round = 0;
+
+    while(round < 5) {
+        playRound(humanSelection(), computerSelection());
+        round++;
     }
-}
+
+    if (humanScore > computerScore) {
+        console.log(`========== You WIN! ========== `);
+        console.log(`You: ${humanScore} : Com: ${computerScore}`);
+    } else {
+        console.log(`========== You Lose! ========== `);
+        console.log(`You: ${humanScore} : Com: ${computerScore}`);
+    }
 }
 
