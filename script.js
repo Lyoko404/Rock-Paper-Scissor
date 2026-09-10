@@ -1,10 +1,7 @@
-let humanScore = 0;
-let computerScore = 0;
+const humanSelection = getHumanChoice();
+const computerSelection = getComputerChoice();
 
-const humanChoice = getHumanChoice;
-const computerChoice = getComputerChoice;
-
-playRound(humanChoice, computerChoice);
+playRound(humanSelection, computerSelection);
 
 function getComputerChoice() {
     computerChoices = Math.floor(Math.random() * 3);
@@ -27,7 +24,14 @@ function getHumanChoice() {
     return humanChoice.toLowerCase();
 }
 
-function playRound(humanChoice, computerChoice) {
+
+
+function playGame() {
+
+    let humanScore = 0;
+    let computerScore = 0;
+
+    function playRound(humanChoice, computerChoice) {
     if(humanChoice !== computerChoice) {
 
         if(humanChoice === 'rock') {
@@ -70,5 +74,6 @@ function playRound(humanChoice, computerChoice) {
     if (humanChoice === computerChoice) {
         console.log(`Draw! ${humanChoice} parry ${computerChoice}`);
     }
+}
 }
 
