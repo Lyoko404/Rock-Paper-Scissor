@@ -1,8 +1,3 @@
-const humanSelection = getHumanChoice;
-const computerSelection = getComputerChoice;
-
-playGame();
-
 function getComputerChoice() {
     let computerChoices = Math.floor(Math.random() * 3);
 
@@ -18,20 +13,35 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    let humanChoice = prompt('Enter you choices [rock, paper, scissor]: ', '');
+getPlayerSelection();
 
-    return humanChoice.toLowerCase();
+function getPlayerSelection() {
+    const playerSelection = document.querySelector('#selection');
+
+    playerSelection.addEventListener('click', (event) => {
+        const clickedElement = event.target;
+        const computerSelection = getComputerChoice;
+
+        if (clickedElement.tagName !== 'BUTTON') {
+            return;
+        }
+
+        if (clickedElement.classList.contains('rock')) {
+            playRound('rock', computerSelection());
+        }
+
+        if (clickedElement.classList.contains('paper')) {
+            playRound('paper', computerSelection());
+        }
+
+        if (clickedElement.classList.contains('scissor')) {
+            playRound('scissor', computerSelection());
+        }
+    })
 }
 
 
-
-function playGame() {
-
-    let humanScore = 0;
-    let computerScore = 0;
-
-    function playRound(humanSelection, computerSelection) {
+function playRound(humanSelection, computerSelection) {
 
         if(humanSelection !== computerSelection) {
 
@@ -77,13 +87,14 @@ function playGame() {
         }
     }
 
-    round = 0;
 
-    while(round < 5) {
-        playRound(humanSelection(), computerSelection());
-        round++;
-    }
+function playGame() {
 
+    let humanScore = 0;
+    let computerScore = 0;
+
+    playRound(humanSelection(), computerSelection());
+    
     if (humanScore > computerScore) {
         console.log(`========== You WIN! ========== `);
         console.log(`You: ${humanScore} : Com: ${computerScore}`);
