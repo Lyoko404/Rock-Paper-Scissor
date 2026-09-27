@@ -1,12 +1,7 @@
-const humanSelection = getHumanChoice;
-const computerSelection = getComputerChoice;
+function getComputerSelection() {
+    let computerSelection = Math.floor(Math.random() * 3);
 
-playGame();
-
-function getComputerChoice() {
-    let computerChoices = Math.floor(Math.random() * 3);
-
-    switch(computerChoices) {
+    switch(computerSelection) {
         case 0:
             return 'rock';
         
@@ -14,81 +9,119 @@ function getComputerChoice() {
             return 'paper';
         
         case 2:
-            return 'scissor';
+            return 'scissors';
     }
 }
 
-function getHumanChoice() {
-    let humanChoice = prompt('Enter you choices [rock, paper, scissor]: ', '');
 
-    return humanChoice.toLowerCase();
-}
+function initGame() {
 
-
-
-function playGame() {
-
-    let humanScore = 0;
+    let playerScore = 0;
     let computerScore = 0;
+    let roundsPlayed = 0;
 
-    function playRound(humanSelection, computerSelection) {
+    const playerScoreDiv = document.querySelector('.player-score');
+    const computerScoreDiv = document.querySelector('.computer-score');
+    const roundDetail = document.querySelector('.round-detail');
+    const winnerBoard = document.querySelector('.winner-board');
 
+    function playRound(humanSelection) {
+
+        if (roundsPlayed >= 5) {
+            return;
+        }
+
+        const computerSelection = getComputerSelection();
+
+        
+        const detailPara = document.createElement('p');
+        const winnerPara = document.createElement('p');
+
+        
         if(humanSelection !== computerSelection) {
 
             if(humanSelection === 'rock') {
                 if(computerSelection === 'paper') {
-                    console.log(`You lose! ${humanSelection} lose to ${computerSelection}`);
                     computerScore += 1;
+                    detailPara.textContent = `You lose! ${humanSelection} lose to ${computerSelection}`;
+                    roundDetail.append(detailPara);
                 }
 
-                if(computerSelection === 'scissor') {
-                    console.log(`You win! ${humanSelection} beats ${computerSelection}`);
-                    humanScore += 1;
+                if(computerSelection === 'scissors') {
+                    playerScore += 1;
+                    detailPara.textContent = `You win! ${humanSelection} beats ${computerSelection}`;
+                    roundDetail.append(detailPara);
                 }
             }
 
             if(humanSelection === 'paper') {
-                if(computerSelection === 'scissor') {
-                    console.log(`You lose! ${humanSelection} lose to ${computerSelection}`);
+                if(computerSelection === 'scissors') {
                     computerScore += 1;
+                    detailPara.textContent = `You lose! ${humanSelection} lose to ${computerSelection}`;
+                    roundDetail.append(detailPara);
                 }
 
                 if(computerSelection === 'rock') {
-                    console.log(`You win! ${humanSelection} beats ${computerSelection}`);
-                    humanScore += 1;
+                    playerScore += 1;
+                    detailPara.textContent = `You win! ${humanSelection} beats ${computerSelection}`;
+                    roundDetail.append(detailPara);
                 }
             }
 
-            if (humanSelection === 'scissor') {
+            if (humanSelection === 'scissors') {
                 if(computerSelection === 'rock') {
-                    console.log(`You lose! ${humanSelection} lose to ${computerSelection}`);
-                    computerSelection += 1;
+                    computerScore += 1;
+                    detailPara.textContent = `You lose! ${humanSelection} lose to ${computerSelection}`;
+                    roundDetail.append(detailPara);
                 }
 
                 if(computerSelection === 'paper') {
-                    console.log(`You win! ${humanSelection} beats ${computerSelection}`);
-                    humanScore += 1;
+                    playerScore += 1;
+                    detailPara.textContent = `You win! ${humanSelection} beats ${computerSelection}`;
+                    roundDetail.append(detailPara);
                 }
             }
         }
 
         if (humanSelection === computerSelection) {
-            console.log(`Draw! ${humanSelection} parry ${computerSelection}`);
+            detailPara.textContent = `Draw! ${humanSelection} parry ${computerSelection}`;
+            roundDetail.append(detailPara);
+        }
+
+        playerScoreDiv.textContent = `YOU: ${playerScore}`;
+        computerScoreDiv.textContent = `COM: ${computerScore}`;
+
+
+        roundsPlayed++;
+
+        if (roundsPlayed === 5) {
+
+            if (playerScore > computerScore) {
+                winnerPara.textContent = `WINNER =>>>>>> YOU with score ${playerScore} VS ${computerScore}`;
+                winnerBoard.append(winnerPara);
+            }
+
+            if (playerScore < computerScore) {
+                winnerPara.textContent = `LOSE :( =>>>>>>> YOU with score ${playerScore} VS ${computerScore}`;
+                winnerBoard.append(winnerPara);
+            }
+
+            if (playerScore === computerScore) {
+                winnerPara.textContent = `DRAW =>>>>>>> YOU with score ${playerScore} VS ${computerScore}`;
+                winnerBoard.append(winnerPara);
+            }
         }
     }
 
-    round = 0;
+    const playerSelection = document.querySelector('#player-selection');
 
-    while(round < 5) {
-        playRound(humanSelection(), computerSelection());
-        round++;
-    }
+    playerSelection.addEventListener('click', (event) => {
+        const target = event.target;
 
-    if (humanScore > computerScore) {
-        console.log(`========== You WIN! ========== `);
-        console.log(`You: ${humanScore} : Com: ${computerScore}`);
-    } else {
-        console.log(`========== You Lose! ========== `);
-        console.log(`You: ${humanScore} : Com: ${computerScore}`);
-    }
+        if (target.tagName === "BUTTON") {
+            playRound(target.className);
+        }
+    })
 }
+
+initGame();
