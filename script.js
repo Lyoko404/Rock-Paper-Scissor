@@ -1,3 +1,8 @@
+const humanSelection = getHumanChoice;
+const computerSelection = getComputerChoice;
+
+playGame();
+
 function getComputerChoice() {
     let computerChoices = Math.floor(Math.random() * 3);
 
@@ -13,35 +18,20 @@ function getComputerChoice() {
     }
 }
 
-getPlayerSelection();
+function getHumanChoice() {
+    let humanChoice = prompt('Enter you choices [rock, paper, scissor]: ', '');
 
-function getPlayerSelection() {
-    const playerSelection = document.querySelector('#selection');
-
-    playerSelection.addEventListener('click', (event) => {
-        const clickedElement = event.target;
-        const computerSelection = getComputerChoice;
-
-        if (clickedElement.tagName !== 'BUTTON') {
-            return;
-        }
-
-        if (clickedElement.classList.contains('rock')) {
-            playRound('rock', computerSelection());
-        }
-
-        if (clickedElement.classList.contains('paper')) {
-            playRound('paper', computerSelection());
-        }
-
-        if (clickedElement.classList.contains('scissor')) {
-            playRound('scissor', computerSelection());
-        }
-    })
+    return humanChoice.toLowerCase();
 }
 
 
-function playRound(humanSelection, computerSelection) {
+
+function playGame() {
+
+    let humanScore = 0;
+    let computerScore = 0;
+
+    function playRound(humanSelection, computerSelection) {
 
         if(humanSelection !== computerSelection) {
 
@@ -87,14 +77,13 @@ function playRound(humanSelection, computerSelection) {
         }
     }
 
+    round = 0;
 
-function playGame() {
+    while(round < 5) {
+        playRound(humanSelection(), computerSelection());
+        round++;
+    }
 
-    let humanScore = 0;
-    let computerScore = 0;
-
-    playRound(humanSelection(), computerSelection());
-    
     if (humanScore > computerScore) {
         console.log(`========== You WIN! ========== `);
         console.log(`You: ${humanScore} : Com: ${computerScore}`);
@@ -103,4 +92,3 @@ function playGame() {
         console.log(`You: ${humanScore} : Com: ${computerScore}`);
     }
 }
-
